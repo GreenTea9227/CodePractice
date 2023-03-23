@@ -27,7 +27,7 @@ public class Main {
 
 
 
-        while (start < end ) {
+        while (start <= end ) {
             long mid = (start+end)/2;
 
             long num=0;
@@ -37,13 +37,13 @@ public class Main {
                     num += tree - mid;
             }
 
-            if (num < M) {
-                end = mid;
-            } else {
+            if (num >= M) {
                 start = mid+1;
+            } else {
+                end = mid-1;
             }
         }
-        System.out.println(start - 1);
+        System.out.println(end);
 
     }
 }
