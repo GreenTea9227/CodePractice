@@ -1,4 +1,5 @@
 
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,10 +21,10 @@ public class Main {
         Arrays.sort(home);
 
         int min = 1;
-        int max = home[home.length - 1]+home[0]+1;
+        int max = home[home.length - 1] - home[0];
 
-
-        while (min < max) {
+        int ans=0;
+        while (min <= max) {
             int distance = (max + min) / 2;
 
             int count = 1;
@@ -36,13 +37,14 @@ public class Main {
                 }
             }
 
-            if (count < c) {
-                max = distance;
-            } else {
+            if (count >= c) {
+                ans = distance;
                 min = distance + 1;
+            } else { // count >= c;
+                max = distance-1;
             }
         }
 
-        System.out.println(min-1);
+        System.out.println(ans);
     }
 }
