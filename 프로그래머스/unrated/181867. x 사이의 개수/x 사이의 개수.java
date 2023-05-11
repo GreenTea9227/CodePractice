@@ -4,16 +4,14 @@ import java.util.stream.*;
 class Solution {
     public int[] solution(String myString) {
         List<Integer> list = new ArrayList<>();
-         myString = myString+"x";
+         myString = "x"+myString+"x";
         
-        int count=0;
-        for (int i=0;i<myString.length();i++) {
+        int index=0;
+        for (int i=1;i<myString.length();i++) {
             if (myString.charAt(i) == 'x') {
-                list.add(count);
-                count=0;
-                continue;
+                list.add(i-index-1);
+                index=i;
             }           
-            count++;
         }
         
         return list.stream().mapToInt(i -> i).toArray();
