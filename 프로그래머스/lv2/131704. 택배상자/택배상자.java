@@ -13,10 +13,9 @@ class Solution {
         
         while (first.size() > 0) {
             
-            if (first.size() > 0 && first.peek() == order[count]) {
+            if (first.peek() == order[count]) {
                 first.pop();
                 count++;
-                continue;
             }
             
             if (second.size() > 0 && second.peek() == order[count]) {
@@ -24,9 +23,9 @@ class Solution {
                 count++;
                 continue;
             }
-                 
-            if (first.size() > 0) 
-                second.push(first.pop());         
+             
+            second.push(first.pop());
+   
         }  
         
         while (!second.empty()) {
