@@ -2,55 +2,41 @@ import java.util.*;
 
 class Solution {
     
-    boolean[] visited;
-    int answer = 1;
+   int answer = 1;
     int[] info;
-    Map<Integer,List<Integer>> map;
-    
-    public int solution(int[] infos, int[][] edges) {
+    Map<Integer, List<Integer>> map;
 
-        visited = new boolean[infos.length];
+    public int solution(int[] infos, int[][] edges) {
+        
         info = infos;
         map = new HashMap<>();
-        
-        for (int i=0;i<infos.length;i++) {
+        for (int i = 0; i < infos.length; i++) {
             map.put(i, new ArrayList<>());
         }
-        
+
         for (int[] arr : edges) {
             map.get(arr[0]).add(arr[1]);
         }
         
-        
-
-        visited[0] = true;
-        dfs(1, 0, new ArrayList<>(map.get(0)));
+        dfs(1, 0, new HashSet<>(map.get(0)));
 
         return answer;
     }
 
-    void dfs(int sheep, int wolf, List<Integer> list) {
+    void dfs(int sheep, int wolf, HashSet<Integer> set) {
+        answer = Math.max(answer, sheep);
+        if (sheep == wolf)
+            return;
 
-        for (int i =0; i< list.size();i++ ) {
-
-            int next = list.get(i);
-
-            if (visited[next])
-                continue;
-
-            visited[next] = true;
-            ArrayList<Integer> list1 = new ArrayList<>(list);
-            list1.addAll(map.get(next));
-            //양
+        for (int next : set) {
+            HashSet<Integer> nextSet = new HashSet<>(set);
+            nextSet.addAll(map.get(next));
+            nextSet.remove(next);
             if (info[next] == 0) {
-                answer = Math.max(answer, sheep + 1);
-                dfs(sheep + 1, wolf, list1);
+                dfs(sheep + 1, wolf, nextSet);
+            } else {
+                dfs(sheep, wolf + 1, nextSet);
             }
-            //늑대
-            if (wolf + 1 < sheep) {
-                dfs(sheep, wolf + 1, new ArrayList<>(list1));
-            }
-            visited[next] = false;
         }
     }
     
