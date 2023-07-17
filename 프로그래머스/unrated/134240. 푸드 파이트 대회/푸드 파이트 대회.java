@@ -6,8 +6,6 @@ class Solution {
             sb.append(String.valueOf(i).repeat(num));
         }
         
-       StringBuilder sb2 = new StringBuilder(sb);
-        sb.append("0").append(sb2.reverse());
-        return sb.toString();
+        return sb.toString() + "0" + sb.reverse().toString();
     }
 }
