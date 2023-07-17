@@ -10,11 +10,7 @@ class Solution {
         for (int i=0;i<s.length();i++) {
             int c = s.charAt(i)-'a';
             
-            if (check[c] == -1) {
-                answer[i] = -1;
-            } else {
-                answer[i] = i - check[c];
-            } 
+            answer[i] = check[c] == -1 ? -1 : i - check[c];
              check[c] = i;
             
         }
