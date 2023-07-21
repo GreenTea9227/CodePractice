@@ -1,36 +1,34 @@
-
-import java.util.*;
+import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        String[] split = sc.nextLine().split(" ");
-        String A = split[0];
-        String B = split[1];
+        int A = sc.nextInt();
+        int B = sc.nextInt();
 
-        int count =0;
-        while (Integer.parseInt(A) < Integer.parseInt(B)) {
-
-            count++;
-            if (B.charAt(B.length()-1) == '1') {
-                B = B.substring(0,B.length()-1);
-                continue;
-            }
-
-            int num = Integer.parseInt(B);
-            if (num % 2 != 0) {
+        int count = 1;
+        while (A != B) {
+            if (B < A) {
                 System.out.println(-1);
                 return;
             }
-            B = String.valueOf(num /2);
+            if (B % 10 == 1) {
+                B /= 10;
+            } else if (B % 2 == 0) {
+                B /= 2;
+            } else {
+                System.out.println(-1);
+                return;
+            }
+
+            count++;
+
+
         }
 
-        if (A.equals(B)) {
-            System.out.println(count+1);
-            return;
-        }
-        System.out.println(-1);
+
+        System.out.println(count);
     }
 
 
