@@ -9,43 +9,44 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
 
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        StringTokenizer st;
 
         int[] maxdp = new int[3];
         int[] mindp = new int[3];
-        int[] current = new int[3];
-        int[] temp = new int[3];
-
+        st = new StringTokenizer(br.readLine());
         maxdp[0] = mindp[0] = Integer.parseInt(st.nextToken());
         maxdp[1] = mindp[1] = Integer.parseInt(st.nextToken());
         maxdp[2] = mindp[2] = Integer.parseInt(st.nextToken());
 
         for (int i = 1; i < N; i++) {
             st = new StringTokenizer(br.readLine());
-            for (int j = 0; j < 3; j++) {
-                current[j] = Integer.parseInt(st.nextToken());
-            }
+            int f1 = Integer.parseInt(st.nextToken());
+            int f2 = Integer.parseInt(st.nextToken());
+            int f3 = Integer.parseInt(st.nextToken());
 
+            int b0 = maxdp[0];
+            int b1 = maxdp[1];
+            int b2 = maxdp[2];
 
-            temp[0] = current[0] + Math.max(maxdp[1], maxdp[0]);
-            temp[2] = current[2] + Math.max(maxdp[1], maxdp[2]);
-            temp[1] = current[1] + Math.max(maxdp[1], Math.max(maxdp[0], maxdp[2]));
-            maxdp[0] = temp[0];
-            maxdp[1] = temp[1];
-            maxdp[2] = temp[2];
+            int m0 = mindp[0];
+            int m1 = mindp[1];
+            int m2 = mindp[2];
 
+            maxdp[0] = f1 + Math.max(b0, b1);
+            maxdp[1] = f2 + Math.max(b0, Math.max(b1, b2));
+            maxdp[2] = f3 + Math.max(b1, b2);
 
-            temp[0] = current[0] + Math.min(mindp[0], mindp[1]);
-            temp[2] = current[2] + Math.min(mindp[1], mindp[2]);
-            temp[1] = current[1] + Math.min(mindp[1], Math.min(mindp[0], mindp[2]));
-            mindp[0] = temp[0];
-            mindp[1] = temp[1];
-            mindp[2] = temp[2];
+            mindp[0] = f1 + Math.min(m0,m1);
+            mindp[1] = f2 + Math.min(m0, Math.min(m1, m2));
+            mindp[2] = f3 + Math.min(m1, m2);
 
         }
 
-        System.out.println(Math.max(maxdp[0], Math.max(maxdp[1], maxdp[2])));
-        System.out.println(Math.min(mindp[0], Math.min(mindp[1], mindp[2])));
+        Arrays.sort(maxdp);
+        Arrays.sort(mindp);
+        System.out.println(maxdp[2]);
+        System.out.println(mindp[0]);
+
 
     }
 }
