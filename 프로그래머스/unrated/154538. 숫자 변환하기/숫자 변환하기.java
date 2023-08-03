@@ -2,35 +2,25 @@ import java.util.*;
 
 class Solution {
     public int solution(int x, int y, int n) {
-        int answer = 0;
-        int[] ints = new int[y+1];
-        Arrays.fill(ints,Integer.MAX_VALUE);
-        ints[y] = 0;
+        int[] dp = new int[y+1];
+        Arrays.fill(dp,Integer.MAX_VALUE);
+        dp[x] = 0;
         
-        Queue<Integer> queue = new LinkedList<>();
-        
-        queue.offer(y);
-        
-        while (!queue.isEmpty()) {
-            int cur = queue.poll();
-            if (cur == x) {
-                break;
+         for (int i = x; i <= y; i++) {
+             if(dp[i]==Integer.MAX_VALUE) 
+                continue;
+            if (i * 2 <= y) {
+                dp[i * 2] = Math.min(dp[i] + 1, dp[i * 2]);
             }
-            if (cur % 2 == 0) {
-                ints[cur/2] = Math.min(ints[cur] + 1,ints[cur/2]);
-                queue.offer(cur/2);
+            if (i * 3 <= y) {
+                dp[i * 3] = Math.min(dp[i] + 1, dp[i * 3]);
             }
-            if (cur % 3 == 0) {
-                ints[cur/3] =Math.min(ints[cur] + 1,ints[cur/3]);
-                queue.offer(cur/3);
+            if (i + n <= y) {
+                dp[i + n] = Math.min(dp[i] + 1, dp[i + n]);
             }
-            if (cur - n >= x) {
-                ints[cur-n] =Math.min(ints[cur] + 1,ints[cur-n]);
-                queue.offer(cur-n);
-            }
-            
         }
         
-        return ints[x] == Integer.MAX_VALUE ? -1 : ints[x];
+
+        return dp[y] == Integer.MAX_VALUE ? -1 : dp[y];
     }
 }
