@@ -1,34 +1,29 @@
 class Solution {
     public int solution(String s) {
-        int answer = 0;
-        StringBuilder sb = new StringBuilder(s);
+         int answer = 0;
 
-        while (sb.length() > 1) {
-            int first = 1;
-            int second = 0;
-            char fs = sb.charAt(0);
-            for (int i=1;i<sb.length();i++) {
+        int first = 0;
+        int second = 0;
+        char fc = '*';
 
-                if (sb.charAt(i) == fs) {
-                    first++;
-                } else {
-                    second++;
-                }
-
-                if (first == second) {
-                    sb.delete(0, i+1);
-                    answer++;
-                    break;
-                }
+        for (int i = 0; i < s.length(); i++) {
+            if (fc == '*')
+                fc = s.charAt(i);
+            
+            if (fc == s.charAt(i)) {
+                first++;
+            } else {
+                second++;
             }
-            if (first != second) {
+            
+            if (first == second) {
                 answer++;
-                break;
+                first=0;
+                second=0;
+                fc = '*';
             }
         }
-
-        return sb.length() == 1 ? answer+1 : answer;
+        
+        return first != second ? answer + 1 : answer;
     }
-    
-    
 }
