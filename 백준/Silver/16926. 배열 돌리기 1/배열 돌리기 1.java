@@ -2,15 +2,14 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
     static int[][] map;
     static int N, M, R;
 
-    static int[] x = new int[]{0, 1, 0, -1};
-    static int[] y = new int[]{1, 0, -1, 0};
+    static int[] y = new int[]{0, 1, 0, -1};
+    static int[] x = new int[]{1, 0, -1, 0};
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -28,10 +27,11 @@ public class Main {
                 map[i][j] = Integer.parseInt(st.nextToken());
             }
         }
-        start();
+        int group = Math.min(N, M) / 2;
+        rotate(group);
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
-                System.out.print(map[i][j]+" ");
+                System.out.print(map[i][j] + " ");
             }
             System.out.println();
         }
@@ -39,37 +39,34 @@ public class Main {
 
     }
 
-    public static void start() {
 
-        for (int i = 0; i < R ; i++) {
-            boolean[][] check = new boolean[N][M];
-            int[][] newArr = new int[N][M];
-            rotate(check, newArr);
-            map = newArr;
-        }
-
-
-    }
-
-
-
-    private static void rotate(boolean[][] check, int[][] newArr) {
-        for (int i = 0, j = 0; i < N && j < M; i++, j++) {
-            if (!check[i][j]) {
-                int cx = j;
+    private static void rotate(int group) {
+        for (int k = 0; k < R; k++) {
+            for (int i = 0; i < group; i++) {
+                int cx = i;
                 int cy = i;
-                for (int k = 0; k < 4; k++) {
-                    int px = x[k];
-                    int py = y[k];
-                    while (cx+px >= 0 && cx+px < M && cy+py >= 0 && cy+py < N && !check[cy+py][cx+px]){
-                        newArr[cy+py][cx+px]=map[cy][cx];
-                        check[cy+py][cx+px]=true;
-                        cy = cy+py;
-                        cx = cx+px;
+                int lastValue = map[cy][cx];
+                int direct = 0;
+
+                while (direct < 4) {
+
+                    int px = cx + x[direct];
+                    int py = cy + y[direct];
+
+                    if (px >= i && px < M-i && py >= i && py < N-i) {
+                        map[cy][cx] = map[py][px];
+                        cx = px;
+                        cy = py;
+                    } else {
+                        direct++;
                     }
+
                 }
+
+                map[cy+1][cx] = lastValue;
             }
         }
+
     }
 
 }
