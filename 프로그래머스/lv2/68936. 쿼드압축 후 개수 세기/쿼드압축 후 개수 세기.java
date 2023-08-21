@@ -8,7 +8,7 @@ class Solution {
     
      private  void zip(int[][] arr, int sx, int sy, int size) {
 
-        if (check(arr, sx, sy, size) || size == 1) {
+        if (check(arr, sx, sy, size)) {
             answer[arr[sy][sx]]++;
             return;
         }
