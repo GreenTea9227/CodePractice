@@ -1,30 +1,29 @@
 import java.util.*;
 
 class Solution {
-    String strs = "RTCFJMAN";
-    public String solution(String[] survey, int[] choices) {
-        String answer = "";
-        Map<Character,Integer> map = new HashMap<>();
+     String mbti = "RTCFJMAN";
+    public  String solution(String[] survey, int[] choices) {
+        int[] scores = new int[8];
+        StringBuilder answer = new StringBuilder();
         for (int i=0;i<survey.length;i++) {
+
+            char c1 = survey[i].charAt(0);
+            char c2 = survey[i].charAt(1);
             int score = choices[i];
-            if (score < 4) {
-                char c1 = survey[i].charAt(0);
-                map.put(c1,map.getOrDefault(c1,0) + 4 - score);
-            } else if (score > 4) {
-                char c2 = survey[i].charAt(1);
-                map.put(c2,map.getOrDefault(c2,0) + score - 4);
+
+            if (score > 4 ) {
+                scores[mbti.indexOf(c2)] += score-4;
+            } else if (score < 4) {
+                scores[mbti.indexOf(c1)] +=  4 - score;
             }
         }
-        
         for (int i=0;i<8;i+=2) {
-            char c1 = strs.charAt(i);
-            char c2 = strs.charAt(i+1);
-            if (map.getOrDefault(c1,0) >= map.getOrDefault(c2,0)) {
-                answer += c1;
+            if (scores[i] >= scores[i+1]) {
+                answer.append(mbti.charAt(i));
             } else {
-                answer += c2;
+                answer.append(mbti.charAt(i+1));
             }
         }
-        return answer;
+        return answer.toString();
     }
 }
