@@ -1,30 +1,20 @@
-import java.util.*;
-
 class Solution {
     public int solution(int[] ingredient) {
-         int ans = 0;
-        Stack<Integer> stack = new Stack<>();
+        int answer = 0;
+        int start =0;
+        int[] myarr = new int[ingredient.length+1];
         
         for (int cur : ingredient) {
-            if (stack.size() < 3) {
-                stack.push(cur);
-                continue;
-            }
-
-            int f1 = stack.pop();
-            int f2 = stack.pop();
-            int f3 = stack.pop();
-            if (  f3 == 1 && f2 == 2 && f1 == 3 && cur == 1 ) {
-              
-                ans++;
-            } else {
+            myarr[++start] = cur;
+            if (start >= 4 && myarr[start] == 1 &&
+                myarr[start-1] == 3 &&
+                myarr[start-2] == 2 &&
+                myarr[start-3] == 1) {
                 
-                stack.push(f3);
-                stack.push(f2);
-                stack.push(f1);
-                stack.push(cur);
+                start -= 4;
+                answer++;
             }
         }
-        return ans;
+        return answer;
     }
 }
