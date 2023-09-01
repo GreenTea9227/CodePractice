@@ -55,12 +55,13 @@ public class Main {
             }
         }
 
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                int ans = visited[i][j] ? answer[i][j] : -1;
-                System.out.print(ans+" ");
+                sb.append(visited[i][j] ? answer[i][j] : -1).append(" ");
             }
-            System.out.println();
+            sb.append("\n");
         }
+        System.out.println(sb);
     }
 }
