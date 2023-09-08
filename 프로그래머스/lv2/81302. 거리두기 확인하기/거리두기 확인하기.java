@@ -1,58 +1,53 @@
+import java.util.*;
+
 class Solution {
     int[] nx = new int[]{0,0,1,-1};
     int[] ny = new int[]{1,-1,0,0};
     
+    int[] answer = new int[5];
     public int[] solution(String[][] places) {
-        int[] answer = new int[5];
-        for (int i=0;i<5;i++) {
-            if (check(places[i]))
-                answer[i]=1;
+        
+        Arrays.fill(answer,1);
+        
+        for (int k=0;k<5;k++) {
+            boolean[][] visited =new boolean[5][5];
+            
+            for (int i=0;i<5;i++) {
+                for (int j=0;j<5;j++) {
+                    if (places[k][i].charAt(j) == 'P') {
+                        visited[i][j] =true;
+                        dfs(places[k],k,0,j,i,visited);
+                        visited[i][j] =false;
+                    }
+                }
+            }
         }
         return answer;
     }
     
-    public boolean check(String[] strs) {
-        for (int i=0;i<5;i++) {
-            for (int j=0;j<5;j++) {
-                if (strs[i].charAt(j) == 'O' || strs[i].charAt(j) == 'X')
-                    continue;
-                boolean[][] visited =new boolean[5][5];
-                visited[i][j] =true;
-                if (!dfs(strs,0,j,i,visited)) {    
-                    return false;
-                }
-                    
-            }
-        }
-        return true;
-    }
     
-    public boolean dfs(String[] strs,int distance,int x,int y,boolean[][] visited) {
-        if (distance == 2)
-            return true;
+    public void dfs(String[] strs,int k,int distance,int x,int y,boolean[][] visited) {
+        if (distance > 2)
+            return;
         
-        boolean ans = true;
-
+        if (distance > 0 && strs[y].charAt(x) == 'P') {
+            answer[k] = 0;
+            return;
+        }
+            
         for (int i=0;i<4;i++) {
             int xx = nx[i] + x;
             int yy = ny[i] + y;
                     
             if (xx<0 || xx>=5 || yy<0 || yy>=5 || visited[yy][xx])
-                continue;
+                continue; 
             
-            char current = strs[yy].charAt(xx);
-            
-            if ( current == 'P') 
-                return false;
-            
-                
-            visited[yy][xx] =true;
-            if ( current == 'O') 
-                 ans = ans && dfs(strs,distance+1,xx,yy,visited);
-            
+            if ( strs[yy].charAt(xx) != 'X')  {
+                 visited[yy][xx] =true;
+                 dfs(strs,k,distance+1,xx,yy,visited);
+                visited[yy][xx] =false;
+            }
         }
-               
-        return ans;
     }
 
 }
