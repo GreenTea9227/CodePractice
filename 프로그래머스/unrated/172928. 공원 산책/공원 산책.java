@@ -23,29 +23,27 @@ class Solution {
             String[] strs = s.split(" ");
             String dir = strs[0];
             int move = Integer.parseInt(strs[1]);
-            
-            int[] next = logic(park,dir,move,x,y);
-            x = next[0];
-            y = next[1];
+            int[] next = map.get(dir);
+           if (logic(park,dir,move,x,y)) {
+                x +=  move * next[0];
+                y +=  move * next[1];
+           };
+          
             
         }
         return new int[]{y,x};
     }
     
-    private int[] logic(String[] park, String dir,int move, int x, int y) {
+    private  boolean logic(String[] park, String dir,int move, int cx, int cy) {
         int[] next = map.get(dir);
-        int cx = x;
-        int cy = y;
         while (move > 0) {
             cx += next[0];
             cy += next[1];
-            if (cx<0 || cx>=park[0].length() || cy<0 || cy>=park.length || park[cy].charAt(cx) == 'X') {
-               
-                return new int[]{x,y};
+            if (cx<0 || cx>=park[0].length() || cy<0 || cy>=park.length || park[cy].charAt(cx) == 'X') {  
+                return false;
             }
-            move--;
-            
+            move--;    
         }
-        return new int[]{cx,cy};
+        return true;
     }
 }
