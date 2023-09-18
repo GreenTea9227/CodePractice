@@ -6,39 +6,40 @@ class Solution {
     int[] ny = new int[]{1,-1,0,0};
     int N,M;
     
-    int[][] sel;
     public int solution(String[] maps) {
-        
-        int answer = 0;
-        
         N = maps.length;
         M = maps[0].length();
         
-        sel = new int[3][2];
+        int sx =0,sy=0;
+        int lx=0,ly=0;
+        int ex=0,ey=0;
+        
         for (int i=0;i<N;i++) {
             for (int j=0;j<M;j++) {
                 switch (maps[i].charAt(j)) {
-                    case 'S':
-                        sel[0][0] = j;
-                        sel[0][1] = i;
-                       break;
-                    case 'L':
-                        sel[1][0] = j;
-                        sel[1][1] = i;
-                        break;
-                    case 'E':
-                        sel[2][0] = j;
-                        sel[2][1] = i;
-                        break;
+                    case 'S' -> {
+                        sx = j ;
+                        sy = i;
+                    }
+                    case 'L' -> {
+                        lx = j;
+                        ly = i;
+                    }
+
+                    case 'E' -> {
+                        ex = j;
+                        ey = i;
+                    }
+
                 }
                     
             }
         }
         
-        int first = bfs(maps,sel[0][0],sel[0][1],sel[1][0],sel[1][1]);
-        int second = bfs(maps,sel[1][0],sel[1][1],sel[2][0],sel[2][1]);
+        int startToLever = bfs(maps,sx,sy,lx,ly);
+        int leverToEnd = bfs(maps,lx,ly,ex,ey);
         
-        return first == -1 || second == -1 ? -1 : first + second;
+        return startToLever == -1 || leverToEnd == -1 ? -1 : startToLever + leverToEnd;
     }
     
     private int bfs(String[] maps,int sx,int sy,int ex, int ey) {
@@ -66,4 +67,5 @@ class Solution {
         
         return distance[ey][ex]-1;
     }
+    
 }
