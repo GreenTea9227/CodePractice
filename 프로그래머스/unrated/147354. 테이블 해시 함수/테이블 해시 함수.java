@@ -1,22 +1,14 @@
 import java.util.*;
+import java.util.stream.*;
 
 class Solution {
     public int solution(int[][] data, int col, int row_begin, int row_end) {
-        int answer = 0;
-        final int newCol = col-1;
         Arrays.sort(data,(a,b) ->  {
-            return a[newCol] != b[newCol] ? a[newCol] - b[newCol] : b[0] - a[0];
+            return a[col-1] != b[col-1] ? a[col-1] - b[col-1] : b[0] - a[0];
         });
         
-        int cur =0;
-        for (int i=row_begin-1;i<row_end;i++) {
-            int m = 0;
-            for (int j=0;j<data[i].length;j++) {
-                m += data[i][j]%(i+1);
-            }
-            cur ^= m;
-        }
-      
-        return cur;
+        return IntStream.range(row_begin-1,row_end).map(i -> 
+            IntStream.range(0,data[i].length).map(j -> data[i][j]%(i+1)).sum()
+        ).reduce(0, (acc, m) -> acc ^ m);
     }
 }
