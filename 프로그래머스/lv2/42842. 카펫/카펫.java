@@ -1,21 +1,15 @@
 class Solution {
     public int[] solution(int brown, int yellow) {
+        int[] answer = new int[2];
         int total = brown+yellow;
-        
-        for (int i=3;i<=total/3;i++) {
-            if (total % i != 0)
-                continue;
-            
-            if (check(i,total/i,brown,yellow)) {
-                return new int[]{total/i,i};
+        for (int bw = 1;bw<=brown;bw++) {
+            int bh = total / bw;
+            if ((bw-2)*(bh-2) == yellow) {
+                answer[0] = bw;
+                answer[1] = bh; 
             }
         }
-        return new int[]{};
-    }
-    
-    private boolean check(int height, int width,int brown, int yellow) {
-        int y = height*2 + width*2 -4;
-        int x = (height-2) * (width-2);
-        return brown == y && yellow == x;
+             
+        return answer;
     }
 }
