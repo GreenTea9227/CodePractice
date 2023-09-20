@@ -1,0 +1,7 @@
+-- 코드를 입력하세요
+SELECT  DATETIME "시간"
+FROM ANIMAL_INS
+WHERE DATETIME = (
+    select MAX(DATETIME)
+    from ANIMAL_INS
+);
