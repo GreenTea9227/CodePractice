@@ -18,26 +18,29 @@ public class Main {
             trucks.offer(Integer.parseInt(st.nextToken()));
         }
 
-        int[] bridge = new int[w+1];
-        int time = 0;
-        while (!trucks.isEmpty()) {
-            //나가고
-            if (bridge[w] != 0) {
-                L += bridge[w];
-                bridge[w] = 0;
-            }
-            for (int i = w; i >=1; i--) {
-                bridge[i] = bridge[i-1];
-            }
-            //들어오고
-            if (L>=trucks.peek()) {
-                Integer poll = trucks.poll();
-                bridge[1] = poll;
-                L -= poll;
-            }
-            time++;
+        Queue<Integer> bridge = new LinkedList<>();
+        for (int i = 0; i < w; i++) {
+            bridge.offer(0);
         }
-        System.out.println(time+w);
+
+        int time = 0;
+        while (!bridge.isEmpty()) {
+            time++;
+            L += bridge.poll();
+
+            if (trucks.isEmpty())
+                continue;
+
+            if (L >= trucks.peek()) {
+                int truck = trucks.poll();
+                bridge.offer(truck);
+                L -= truck;
+            } else {
+                bridge.offer(0);
+            }
+
+        }
+        System.out.println(time);
 
     }
 }
