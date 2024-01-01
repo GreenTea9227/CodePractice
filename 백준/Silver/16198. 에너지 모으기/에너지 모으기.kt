@@ -1,24 +1,29 @@
+
+val list = mutableListOf<Int>()
 var answer = 0
 
 fun main() {
     val T = readLine()!!.toInt()
-    val arr = readLine()!!.split(" ")
-        .map { it.toInt() }
-    logic(arr,0)
+    readLine()!!.split(" ")
+        .map { list.add(it.toInt()) }
+
+    logic(0, 0)
 
     println(answer)
 }
 
-fun logic(arr : List<Int>, sum : Int) {
+fun logic(count: Int, sum: Int) {
 
-    if (arr.size <= 2) {
+    if (list.size == 2) {
         answer = Math.max(answer, sum)
+        return
     }
 
-    for (num in 1..(arr.lastIndex-1)) {
-        val newList = arr.toMutableList()
-        val addNum = newList[num-1] * newList[num+1]
-        newList.removeAt(num)
-        logic(newList,sum + addNum)
+    for (index in 1..(list.lastIndex - 1)) {
+        val temp = list[index]
+        val addNum = sum + list[index - 1] * list[index + 1]
+        list.removeAt(index)
+        logic(count + 1, addNum)
+        list.add(index, temp)
     }
 }
