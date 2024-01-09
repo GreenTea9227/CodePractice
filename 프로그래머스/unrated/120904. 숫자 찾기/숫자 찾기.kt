@@ -1,10 +1,3 @@
-
-    class Solution {
-        fun solution(num: Int, k: Int) = num.toString().mapIndexedNotNull {
-        idx,value ->
-        if (k.toString() ==  value.toString())
-            idx+1
-        else
-            null
-    }.firstOrNull() ?: -1
-    }
+class Solution {
+    fun solution(num: Int, k: Int) : Int = "$num".map { it.digitToInt() }.indexOf(k).let { if (it != -1) it+1 else it  }
+}
