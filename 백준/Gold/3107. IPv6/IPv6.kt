@@ -1,32 +1,28 @@
 
 fun main() {
-    var str = StringBuilder(readLine()!!)
-    if (str.startsWith(":")) {
-        str.insert(0,"0")
+    var input = readLine()!!
+    if (input.startsWith(":")) {
+        input = "0$input"
     }
 
-    if (str.contains("::")) {
-        val str2 = str.split("::")
-        val count1 = str2[0].count {it == ':'}
-        val count2 = str2[1].count {it == ':'}
-        if (str2.size < 8) {
-
-            str = StringBuilder(str2[0])
-                .append(":0".repeat(8 - count1 - count2  - 2))
-                .append(":")
-                .append(str2[1])
+    if (input.contains("::")) {
+        val parts = input.split("::")
+        val count1 = parts[0].count { it == ':' }
+        val count2 = parts[1].count { it == ':' }
+        if (parts.size < 8) {
+            input = "${parts[0]}${":0".repeat(8 - count1 - count2 - 2)}:${parts[1]}"
         }
     }
 
-    val finalStr = str.split(":").toTypedArray()
+    val finalParts = input.split(":").toTypedArray()
 
-
-    for (n in finalStr.indices) {
-        finalStr[n] = "0".repeat(4 - finalStr[n].length) + finalStr[n]
+    for (i in finalParts.indices) {
+        finalParts[i] = "0".repeat(4 - finalParts[i].length) + finalParts[i]
     }
 
-    println(finalStr.joinToString(":"))
+    println(finalParts.joinToString(":"))
 }
+
 
 
 
