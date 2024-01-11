@@ -3,44 +3,27 @@ fun main() {
 
     var (N, S) = readLine()!!.split(" ").map { it.toInt() }
     val list = readLine()!!.split(" ").map { it.toInt() }.toMutableList()
-
+    list.add(0)
 
     var len = Int.MAX_VALUE
     var start = 0
     var end = 0
     var sum = 0
-    while (end <= list.lastIndex) {
+    while (start <= N && end <= N) {
+
+        if (sum >= S && len > end - start) {
+            len = end - start
+        }
+
         if (sum < S) {
-            sum += list[end]
-            end++
+            sum += list[end++]
         } else {
-            if (len > end - start) {
-                len = end - start
-            }
-            sum -= list[start]
-            start++
+            sum -= list[start++]
         }
     }
-
-
-    while (start <= list.lastIndex) {
-        if (sum >= S) {
-            len = minOf(end - start, len)
-        }
-        sum -= list[start]
-        start++
-    }
-
 
     println(if (len == Int.MAX_VALUE) 0 else len)
 
-
 }
-
-
-
-
-
-
 
 
