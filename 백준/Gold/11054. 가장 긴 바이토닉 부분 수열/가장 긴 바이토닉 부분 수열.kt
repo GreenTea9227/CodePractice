@@ -1,4 +1,3 @@
-
 import kotlin.math.max
 
 fun main() {
@@ -11,15 +10,14 @@ fun main() {
 
     var answer = 0
     for (i in 0..left.lastIndex) {
-        answer = max(answer, left[i] + right[i] -1)
+        answer = max(answer, left[i] + right[i] - 1)
     }
     println(answer)
-
 }
 
 private fun findDp(N: Int, arr: IntArray): IntArray {
     val dp = IntArray(N)
-    dp[0]=1
+    dp[0] = 1
     for (i in 1 until N) {
         dp[i] = 1
         for (j in 0 until i) {
@@ -27,11 +25,5 @@ private fun findDp(N: Int, arr: IntArray): IntArray {
                 dp[i] = max(dp[i], dp[j] + 1)
         }
     }
-
-    for (i in 1..dp.lastIndex) {
-        if (dp[i] < dp[i-1])
-            dp[i] = dp[i-1]
-    }
-
     return dp
 }
