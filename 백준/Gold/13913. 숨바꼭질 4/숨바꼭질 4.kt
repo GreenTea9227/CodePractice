@@ -1,4 +1,3 @@
-
 import java.util.*
 
 private const val MAX_LINE = 100_000
@@ -8,29 +7,28 @@ fun main() {
     val N = sc.nextInt()
     var K = sc.nextInt()
 
-    val visited = IntArray(MAX_LINE + 1)
-    visited.fill(-1)
+    val visited = IntArray(MAX_LINE + 1) {-1}
 
-    val queue = LinkedList<Int>()
+    val queue = ArrayDeque<Int>()
     visited[N] = 0
     queue.offer(N)
 
-    while (!queue.isEmpty()) {
+    while (queue.isNotEmpty()) {
         val poll = queue.poll()
 
         if (poll == K) {
             val stack = Stack<Int>()
+            val answer = StringBuilder(stack.capacity())
+
             var current =  poll
             while (current != N) {
                 stack.push(current)
                 current = visited[current]
             }
-            val answer = StringBuilder()
             val time = stack.size
-
             stack.push(current)
 
-            while (!stack.empty()) {
+            while (stack.isNotEmpty()) {
                 answer.append(stack.pop()).append(" ")
             }
 
@@ -39,21 +37,23 @@ fun main() {
             break
         }
 
-        if (poll - 1 >= 0 && visited[poll -1] == -1) {
-            visited[poll - 1] = poll
-            queue.offer(poll - 1)
+        val nextMinus = poll - 1
+        val nextPlus = poll + 1
+        val nextMul = poll * 2
+
+        if (nextMinus in 0..MAX_LINE && visited[nextMinus] == -1) {
+            visited[nextMinus] = poll
+            queue.offer(nextMinus)
         }
 
-        if (poll + 1 <= MAX_LINE && visited[poll + 1] == -1) {
-            visited[poll + 1] = poll
-            queue.offer(poll + 1)
+        if (nextPlus in 0..MAX_LINE && visited[nextPlus] == -1) {
+            visited[nextPlus] = poll
+            queue.offer(nextPlus)
         }
 
-        if (poll * 2 <= MAX_LINE && visited[poll * 2] == -1) {
-            visited[poll * 2] = poll
-            queue.offer(poll * 2)
+        if (nextMul in 0..MAX_LINE && visited[nextMul] == -1) {
+            visited[nextMul] = poll
+            queue.offer(nextMul)
         }
-
-
     }
 }
