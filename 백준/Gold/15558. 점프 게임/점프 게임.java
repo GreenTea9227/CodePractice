@@ -1,4 +1,3 @@
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -33,10 +32,13 @@ public class Main {
 		visited = new boolean[2][N + 1];
 		visited[0][1] = true;
 
-		while (!queue.isEmpty() && time <= N) {
-
+		while (!queue.isEmpty()) {
 			for (int i = 0; i < queue.size(); i++) {
 				Node current = queue.poll();
+				if (current.seq+k > N) {
+					System.out.println(1);
+					return;
+				}
 				check(current.seq + 1, current.line);
 				check(current.seq - 1, current.line);
 				check(current.seq + k, (current.line + 1) % 2);
@@ -49,15 +51,11 @@ public class Main {
 	}
 
 	private static void check(int next, int line) {
-		if (next > N) {
-			System.out.println(1);
-			System.exit(0);
-		}
+		if (next <= time || visited[line][next] || arr[line][next] == 0)
+			return;
 
-		if (next >= 1 && next > time && !visited[line][next] && arr[line][next] == 1) {
-			visited[line][next] = true;
-			queue.offer(new Node(line, next));
-		}
+		visited[line][next] = true;
+		queue.offer(new Node(line, next));
 	}
 
 	private static class Node {
