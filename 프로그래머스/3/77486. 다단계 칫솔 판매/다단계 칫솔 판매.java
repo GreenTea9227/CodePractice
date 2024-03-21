@@ -20,8 +20,7 @@ class Solution {
                     total.put(current,total.get(current) + currentAmount);
                     break;
                 }
-                total.put(current,total.get(current) + currentAmount - remain);
-                
+                total.merge(current, currentAmount - remain,(oldValue, newValue) -> oldValue + newValue);
                 current = persons.get(current);
                 currentAmount = remain;
             }
