@@ -1,10 +1,11 @@
+
+
 import java.util.Scanner;
 
 public class Main {
 
 	static int N;
 	static int[][] arr;
-	static int answer=0;
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
@@ -14,19 +15,22 @@ public class Main {
 			arr[i][0] = sc.nextInt();
 			arr[i][1] = sc.nextInt();
 		}
-		depth(0,0);
+		int answer = depth(0, 0);
 		System.out.println(answer);
 
 	}
 
-	private static void depth(int day,int total) {
+	private static int depth(int day, int total) {
 		if (day == N) {
-			answer = Math.max(answer, total);
-			return;
+			return total;
 		}
+		int ans = 0;
 		for (int i = day; i < N; i++) {
-			depth(i + arr[i][0],total+arr[i][1]);
-			depth(i+1,total);
+			int t1 = depth(i + arr[i][0], total + arr[i][1]);
+			int t2 = depth(i + 1, total);
+			ans = Math.max(ans, Math.max(t1, t2));
 		}
+
+		return ans;
 	}
 }
