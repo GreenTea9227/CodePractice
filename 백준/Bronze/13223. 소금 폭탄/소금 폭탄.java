@@ -1,5 +1,5 @@
-
 import java.util.Scanner;
+import java.util.stream.IntStream;
 
 public class Main {
 	public static void main(String[] args) {
@@ -29,9 +29,8 @@ public class Main {
 
 	private static int timeTranslate(String time) {
 		String[] split = time.split(":");
-		// return IntStream.rangeClosed(0, 2)
-		// 				.reduce(0,(total, next) ->
-		// 						 total + (int)Math.pow(60, Math.abs(next - 2)) * Integer.parseInt(split[next]));
-		return Integer.parseInt(split[0]) * 3600 + Integer.parseInt(split[1]) * 60 + Integer.parseInt(split[2]);
+		return IntStream.rangeClosed(0, 2)
+						.reduce(0, (total, next) ->
+							total + (int)Math.pow(60, Math.abs(next - 2)) * Integer.parseInt(split[next]));
 	}
 }
