@@ -1,77 +1,63 @@
+import java.util.Scanner;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.util.StringTokenizer;
+class Main
+{
+    static int[][] getPrefixSum(char[][] map) {
+        int N = map.length - 1;
+        int M = map[0].length - 1;
+        int[][] acc = new int[N + 1][M + 1];
+        for (int i = 1; i <= N; i++)
+            for (int j = 1; j <= M; j++) {
+                int alive = (map[i][j] == '*' ? 1 : 0);
+                acc[i][j] = acc[i - 1][j] + acc[i][j - 1] - acc[i - 1][j - 1] + alive;
+            }
+        return acc;
+    }
 
-public class Main {
-	static String[] arr;
+    static int getRangeSum(int[][] acc, int r, int c, int K) {
+        int r1 = Math.max(r - K, 1);
+        int c1 = Math.max(c - K, 1);
+        int r2 = Math.min(r + K, acc.length - 1);
+        int c2 = Math.min(c + K, acc[0].length - 1);
+        return acc[r2][c2] - acc[r1 - 1][c2] - acc[r2][c1 - 1] + acc[r1 - 1][c1 - 1];
+    }
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		Integer N = Integer.parseInt(st.nextToken());
-		Integer M = Integer.parseInt(st.nextToken());
-		Integer T = Integer.parseInt(st.nextToken());
+    public static void main (String[] args) {
+        Scanner sc = new Scanner(System.in);
 
-		st = new StringTokenizer(br.readLine());
-		Integer k = Integer.parseInt(st.nextToken());
-		Integer a = Integer.parseInt(st.nextToken());
-		Integer b = Integer.parseInt(st.nextToken());
+        int N = sc.nextInt();
+        int M = sc.nextInt();
+        int T = sc.nextInt();
+        int K = sc.nextInt();
+        int A = sc.nextInt();
+        int B = sc.nextInt();
 
-		arr = new String[N];
-		for (int i = 0; i < N; i++) {
-			arr[i] = br.readLine();
-		}
+        char[][] map = new char[N + 1][M + 1];
+        for (int i = 1; i <= N; i++) {
+            String rowMap = sc.next();
+            for (int j = 1; j <= M; j++)
+                map[i][j] = rowMap.charAt(j - 1);
+        }
 
-		for (int i = 0; i < T; i++) {
-			String[] second = new String[N];
+        while (T-- > 0) {
+            int[][] acc = getPrefixSum(map);
+            for (int i = 1; i <= N; i++)
+                for (int j = 1; j <= M; j++) {
+                    int nearAlive = getRangeSum(acc, i, j, K);
+                    if (map[i][j] == '*') {
+                        nearAlive--;
+                        if (nearAlive < A || B < nearAlive)
+                            map[i][j] = '.';
+                    }
+                    else if (A < nearAlive && nearAlive <= B)
+                        map[i][j] = '*';
+                }
+        }
 
-			for (int j = 0; j < N; j++) {
-				StringBuilder sb = new StringBuilder(arr[j]);
-				for (int l = 0; l < M; l++) {
-
-					int cnt = 0;
-					cnt = countAsterisk(j, k, N, l, M, cnt);
-
-					char cur = arr[j].charAt(l);
-					if (cur == '*') {
-						--cnt;
-						if (cnt < a || cnt > b) {
-							sb.setCharAt(l, '.');
-						}
-					} else {
-						if (cnt > a && cnt <= b) {
-							sb.setCharAt(l, '*');
-						}
-					}
-				}
-				second[j] = sb.toString();
-			}
-
-			arr = second;
-		}
-
-		for (String s : arr) {
-			bw.write(s);
-			bw.write("\n");
-		}
-		br.close();
-		bw.flush();
-		bw.close();
-	}
-
-	private static int countAsterisk(int j, Integer k, Integer N, int l, Integer M, int cnt) {
-
-		for (int m = Math.max(j - k, 0); m <= Math.min(j + k, N - 1); m++) {
-			for (int n = Math.max(l - k, 0); n <= Math.min(l + k, M - 1); n++) {
-				if (arr[m].charAt(n) == '*')
-					cnt++;
-			}
-		}
-		return cnt;
-	}
+        for (int i = 1; i <= N; i++) {
+            for (int j = 1; j <= M; j++)
+                System.out.print(map[i][j]);
+            System.out.println();
+        }
+    }
 }
