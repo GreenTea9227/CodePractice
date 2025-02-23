@@ -1,10 +1,10 @@
 # [level 4] 4단 고음 - 1831 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/1831) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/1831#) 
 
 ### 성능 요약
 
-메모리: 94.2 MB, 시간: 562.81 ms
+메모리: 83.3 MB, 시간: 583.70 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2025년 02월 23일 23:07:50
+2025년 02월 23일 23:32:02
 
 ### 문제 설명
 
