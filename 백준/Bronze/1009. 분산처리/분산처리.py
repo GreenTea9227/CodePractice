@@ -1,9 +1,12 @@
 T = int(input())
 for i in range(T):
-    a,b = map(int, input().split(" "))
+    a, b = map(int, input().split(" "))
+    cycle = []  # list 사용
+    cur = a % 10
 
-    cur = 1
-    for j in range(b):
+    while cur not in cycle:
+        cycle.append(cur)
         cur = (cur * a) % 10
-    print(cur if cur != 0 else 10)
 
+    result = cycle[(b - 1) % len(cycle)]
+    print(result if result != 0 else 10)
