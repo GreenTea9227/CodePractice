@@ -26,7 +26,7 @@ def merge(left,right):
         else:
             result.append(right[j])
             j += 1
-            ans += abs(len(left) + j - len(result))
+            ans += len(left) - i
 
 
     result.extend(left[i:])
